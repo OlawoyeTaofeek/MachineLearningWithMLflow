@@ -1,5 +1,6 @@
 import os
 import logging
+import sys
 
 def setup_logging(log_filename: str) -> str:
     """
@@ -22,7 +23,7 @@ def setup_logging(log_filename: str) -> str:
         format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s",
         handlers=[
             logging.FileHandler(log_file_path),
-            logging.StreamHandler(),  # Also print to console for debugging
+            logging.StreamHandler(sys.stdout),  # Also print to console for debugging
         ]
     )
     return log_file_path

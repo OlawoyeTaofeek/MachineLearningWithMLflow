@@ -3,7 +3,7 @@ from pathlib import Path
 import logging
 import sys
 
-from logging_utils import setup_logging
+from src.mlProject.utils.logging_utils import setup_logging
 
 try:
     log_file_path =setup_logging('template_folder_creation.log')

@@ -78,19 +78,40 @@ def validate_json_schema(data: dict, schema: dict):
 
 @ensure_annotations
 def load_json(path: Path) -> ConfigBox:
-    """load json files data
+    """Load JSON file data.
 
     Args:
-        path (Path): path to json file
+        path (Path): Path to the JSON file.
+
+    Raises:
+        FileNotFoundError: If the JSON file does not exist.
+        ValueError: If the JSON file is empty or invalid.
 
     Returns:
-        ConfigBox: data as class attributes instead of dict
+        ConfigBox: Data as class attributes instead of a dict.
     """
-    with open(path) as f:
-        content = json.load(f)
+    try:
+        if not path.exists():
+            logging.error(f"JSON file {path} not found.")
+            raise FileNotFoundError(f"JSON file {path} not found.")
 
-    logging.info(f"json file loaded succesfully from: {path}")
-    return ConfigBox(content)
+        with open(path, "r", encoding="utf-8") as f:
+            content = json.load(f)
+
+        if not content:
+            logging.error(f"JSON file {path} is empty.")
+            raise ValueError(f"JSON file {path} is empty.")
+
+        logging.info(f"JSON file loaded successfully from: {path}")
+        return ConfigBox(content)
+
+    except json.JSONDecodeError as jde:
+        logging.exception(f"Error decoding JSON from {path}: {jde}")
+        raise ValueError(f"Error decoding JSON from {path}: {jde}")
+
+    except Exception as e:
+        logging.exception(f"An unexpected error occurred: {e}")
+        raise ValueError(f"An unexpected error occurred: {e}")
     
 @ensure_annotations
 def save_joblib(path: Path, data: Any):
@@ -116,3 +137,15 @@ def load_joblib(path: Path) -> Any:
     data = joblib.load(path)
     logging.info(f"binary file loaded from: {path}")
     return data
+
+@ensure_annotations
+def create_directories(paths: list, verbose: bool = True):
+    """Create directories from a list of paths.
+
+    Args:
+        paths (list): List of directory paths to create.
+        verbose (bool, optional): Whether to log directory creation. Defaults to True.
+    """
+    for path in paths:
+        os.makedirs(path, exist_ok=True)
+        verbose and logging.info(f"Created directory at: {path}")

@@ -1,7 +1,5 @@
 from mlProject.config.configuration import ConfigurationManager
 from mlProject.components.data_ingestion import DataIngestion
-from mlProject.utils.logging_utils import setup_logging
-import logging
 
 class DataIngestionTrainingPipeline:
     def __init__(self):

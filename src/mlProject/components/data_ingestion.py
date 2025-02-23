@@ -5,7 +5,6 @@ from mlProject.utils.logging_utils import setup_logging
 from mlProject.utils.common import get_size
 import logging
 import urllib.request as request
-setup_logging("data_ingestion")
 from pathlib import Path
 
 class DataIngestion:

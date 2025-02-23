@@ -8,12 +8,8 @@ from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 from box.exceptions import BoxValueError, BoxKeyError
-from mlProject.utils.logging_utils import setup_logging
-import logging
 from jsonschema import validate, ValidationError
-
-## Building Utilities  
-log_file_path = setup_logging('Utils_common.log')
+import logging
 
 @ensure_annotations
 def load_yaml(path_to_yaml: Path) -> ConfigBox:

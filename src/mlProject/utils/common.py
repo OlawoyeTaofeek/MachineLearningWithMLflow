@@ -8,7 +8,7 @@ from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 from box.exceptions import BoxValueError, BoxKeyError
-from src.mlProject.utils.logging_utils import setup_logging
+from mlProject.utils.logging_utils import setup_logging
 import logging
 from jsonschema import validate, ValidationError
 

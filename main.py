@@ -2,16 +2,20 @@ import os
 import logging
 import sys
 
-from src.mlProject.utils.logging_utils import setup_logging
+from mlProject.utils.logging_utils import setup_logging
+from mlProject.pipeline.stage_01_ingestion import DataIngestionTrainingPipeline
 
-try:
-    log_file_path = setup_logging('practice.log')
-    logging.info(f"Logging is set up. Logs will be saved to {log_file_path}")
-except Exception as e:
-    print(f"Failed to set up logging: {e}")
-    sys.exit(1)
-    
-    
-import mlProject
-print(mlProject.__version__)
+STAGE_NAME = "Data ingestion stage"
+setup_logging("stage1_ingestion.log")
+
+if __name__ == '__main__':
+    try:
+        logging.info(f">>>>> stage {STAGE_NAME} started <<<<<<")
+        pipeline = DataIngestionTrainingPipeline()
+        pipeline.main()
+        logging.info(f">>>>> stage {STAGE_NAME} completed <<<<<<\n\nX============X")
+    except Exception as e:
+        logging.error(f"Error in stage {STAGE_NAME}: {e}")
+        raise e
+
 

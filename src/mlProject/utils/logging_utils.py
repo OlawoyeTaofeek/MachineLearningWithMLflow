@@ -2,35 +2,32 @@ import os
 import logging
 import sys
 
-def setup_logging(log_filename: str) -> str:
+def setup_logging(log_filename: str) -> None:
     """
-    Setup logging for the application.
+    Set up a global logging configuration for the entire pipeline stage.
 
     Args:
-        log_filename (str): The name of the log file to create (e.g., "data_ingestion.log").
-
-    Returns:
-        str: The full path of the log file created.
+        log_filename (str): The name of the log file (e.g., "data_ingestion.log").
     """
-    # Get the current working directory (main project folder)
-    project_root = os.getcwd()  # Gets the folder where you run the main script
-    log_dir = os.path.join(project_root, "logs")  
+    # Get the main project directory
+    project_root = os.getcwd()  
+    log_dir = os.path.join(project_root, "logs")
     os.makedirs(log_dir, exist_ok=True)
 
-    # Full log file path
+    # Full path for the log file
     log_file_path = os.path.join(log_dir, log_filename)
 
-    # Remove existing handlers to prevent duplicate logs
-    for handler in logging.root.handlers[:]:
-        logging.root.removeHandler(handler)
+    # Clear existing logging handlers (avoid duplicates across multiple calls)
+    root_logger = logging.getLogger()
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
 
-    # Configure logging
+    # Configure global logging
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s",
         handlers=[
-            logging.FileHandler(log_file_path),
-            logging.StreamHandler(sys.stdout),  # Also print to console for debugging
+            logging.FileHandler(log_file_path),  # Log to file
+            logging.StreamHandler(sys.stdout)    # Also log to console
         ]
     )
-    return log_file_path

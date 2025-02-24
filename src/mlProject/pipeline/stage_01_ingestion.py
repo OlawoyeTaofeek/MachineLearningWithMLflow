@@ -1,5 +1,8 @@
 from mlProject.config.configuration import ConfigurationManager
 from mlProject.components.data_ingestion import DataIngestion
+from mlProject.utils.logging_utils import setup_logging
+import logging
+
 
 class DataIngestionTrainingPipeline:
     def __init__(self):
@@ -14,4 +17,7 @@ class DataIngestionTrainingPipeline:
             data_ingestion.extract_zip_file()
         except Exception as e:
             raise e
+    
+    
+
         
